@@ -286,7 +286,7 @@ export default function ProctoringTestPage() {
                           : 'bg-yellow-500'
                         }`} />
                       <span className="font-medium">
-                        {getFlagMessage(flag, flag === 'GAZE_AWAY' ? flagState.gazeDirection : null)}
+                        {getFlagMessage(flag)}
                       </span>
                     </li>
                   ))}
@@ -294,6 +294,16 @@ export default function ProctoringTestPage() {
               ) : (
                 <div className="text-gray-500 text-center py-4">
                   {isActive ? 'Initializing detection...' : 'Start camera to begin analysis'}
+                </div>
+              )}
+
+              {/* Detection counts */}
+              {isAnalyzing && (
+                <div className="pt-3 border-t border-gray-700">
+                  <div className="bg-gray-700/50 rounded-lg p-3 text-center">
+                    <div className="text-2xl font-bold text-blue-400">{flagState.faceCount}</div>
+                    <div className="text-xs text-gray-400 mt-1">Faces Detected</div>
+                  </div>
                 </div>
               )}
 
@@ -338,7 +348,7 @@ export default function ProctoringTestPage() {
                       </span>
                       {' '}
                       <span className="text-gray-600">
-                        (faces: {entry.details.faceCount}, brightness: {entry.details.brightness}{entry.details.gazeDirection && entry.details.gazeDirection !== 'CENTER' ? `, gaze: ${entry.details.gazeDirection.toLowerCase()}` : ''})
+                        (faces: {entry.details.faceCount}, brightness: {entry.details.brightness})
                       </span>
                     </li>
                   ))}
@@ -347,10 +357,9 @@ export default function ProctoringTestPage() {
             </section>
           )}
 
-          {/* Footer */}
           <footer className="mt-8 text-center text-gray-600 text-sm">
             <p>Performance experiment • Not production proctoring</p>
-            <p className="mt-1">MediaPipe FaceLandmarker (478 landmarks + iris) • Throttled to 2 FPS</p>
+            <p className="mt-1">MediaPipe FaceDetector • Throttled to 2 FPS</p>
           </footer>
         </div>
       </main>
